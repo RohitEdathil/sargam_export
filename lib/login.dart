@@ -1,0 +1,153 @@
+import 'package:sargam_export/constants.dart';
+import 'package:sargam_export/ui.dart';
+import 'package:flutter/material.dart';
+import 'package:firebase/firebase.dart';
+
+/// Style of the input fields
+final authInputDecoration = InputDecoration(
+  border: OutlineInputBorder(
+    borderRadius: BorderRadius.circular(10),
+    borderSide: BorderSide(color: fg, style: BorderStyle.solid, width: 2),
+  ),
+  focusedBorder: OutlineInputBorder(
+    borderRadius: BorderRadius.circular(10),
+    borderSide: BorderSide(color: fg, style: BorderStyle.solid, width: 2),
+  ),
+  focusColor: fg,
+  labelStyle: TextStyle(color: fg2),
+);
+
+/// Switches b/w the login and dashboard screens based on the current user
+class AuthLayer extends StatefulWidget {
+  const AuthLayer({Key? key}) : super(key: key);
+
+  @override
+  State<AuthLayer> createState() => _AuthLayerState();
+}
+
+class _AuthLayerState extends State<AuthLayer> {
+  final a = auth();
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<User?>(
+        stream: a.onAuthStateChanged,
+        builder: (context, snap) {
+          if (snap.data == null) {
+            return const LoginView();
+          }
+          return const AnertExporter();
+        });
+  }
+}
+
+class LoginView extends StatefulWidget {
+  const LoginView({Key? key}) : super(key: key);
+
+  @override
+  _LoginViewState createState() => _LoginViewState();
+}
+
+class _LoginViewState extends State<LoginView> {
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  String error = '';
+  _login() {
+    auth()
+        .signInWithEmailAndPassword(
+            _emailController.value.text, _passwordController.value.text)
+        .onError<FirebaseError>((e, _) {
+      setState(() {
+        error = e.message;
+      });
+      return auth().signInWithEmailAndPassword(
+          _emailController.value.text, _passwordController.value.text);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: bg1,
+      body: Center(
+        child: Container(
+          width: 400,
+          padding: const EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            color: bg2,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Login",
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline3
+                          ?.copyWith(color: fg),
+                      textAlign: TextAlign.start,
+                    ),
+                    SizedBox(
+                      child: Image.asset("anert.png"),
+                      height: 150,
+                      width: 150,
+                    )
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8),
+                child: TextField(
+                  controller: _emailController,
+                  style: TextStyle(color: fg2),
+                  decoration: authInputDecoration.copyWith(
+                      label: const Text("E-mail"),
+                      prefixIcon: Icon(Icons.email, color: fg2)),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8),
+                child: TextField(
+                    controller: _passwordController,
+                    obscureText: true,
+                    style: TextStyle(color: fg2),
+                    decoration: authInputDecoration.copyWith(
+                      label: const Text("Password"),
+                      prefixIcon: Icon(Icons.lock, color: fg2),
+                    )),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(error, style: const TextStyle(color: Colors.red)),
+              ),
+              InkWell(
+                onTap: _login,
+                child: Container(
+                  width: 400,
+                  margin: const EdgeInsets.symmetric(vertical: 10),
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  decoration: BoxDecoration(
+                    color: fg,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Center(
+                    child: Text(
+                      "Go",
+                      style: Theme.of(context).textTheme.headline6,
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
