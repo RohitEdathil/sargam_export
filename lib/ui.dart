@@ -39,11 +39,11 @@ class ExportControls extends StatefulWidget {
 }
 
 class _ExportControlsState extends State<ExportControls> {
-  String selected = eventNames.keys.first;
+  Event selected = eventNames.first;
   Status status = Status.choosing;
   List<int>? file;
-  void _setChoice(String? n) {
-    selected = n ?? eventNames.keys.first;
+  void _setChoice(Event? n) {
+    selected = n ?? eventNames.first;
     setState(() {
       status = Status.choosing;
     });

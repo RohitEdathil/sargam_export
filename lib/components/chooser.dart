@@ -5,7 +5,7 @@ import 'package:sargam_export/data/values.dart';
 class DataChooser extends StatefulWidget {
   final Color background;
   final Color foreground;
-  final Function(String?) callback;
+  final Function(Event?) callback;
   const DataChooser(
       {Key? key,
       required this.background,
@@ -31,19 +31,19 @@ class _DataChooserState extends State<DataChooser> {
               .copyWith(color: Colors.white),
         ),
         const SizedBox(width: 10),
-        DropdownButton<String>(
+        DropdownButton<Event>(
           borderRadius: BorderRadius.circular(10),
-          value: eventNames.keys.first,
+          value: eventNames.first,
           underline: null,
           dropdownColor: bg1,
           focusColor: bg2,
           items: [
-            for (var event in eventNames.keys)
-              DropdownMenuItem<String>(
+            for (var event in eventNames)
+              DropdownMenuItem<Event>(
                 value: event,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text(eventNames[event]!,
+                  child: Text(event.fairName,
                       style: Theme.of(context)
                           .textTheme
                           .headline6!
