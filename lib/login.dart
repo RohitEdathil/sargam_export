@@ -94,7 +94,7 @@ class _LoginViewState extends State<LoginView> {
                       textAlign: TextAlign.start,
                     ),
                     SizedBox(
-                      child: Image.asset("anert.png"),
+                      child: Image.asset("sargam.png"),
                       height: 150,
                       width: 150,
                     )
