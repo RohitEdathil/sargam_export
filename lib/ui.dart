@@ -43,8 +43,8 @@ class _ExportControlsState extends State<ExportControls> {
   Status status = Status.choosing;
   List<int>? file;
   void _setChoice(Event? n) {
-    selected = n ?? eventNames.first;
     setState(() {
+      selected = n ?? eventNames.first;
       status = Status.choosing;
     });
   }
@@ -82,7 +82,11 @@ class _ExportControlsState extends State<ExportControls> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            DataChooser(foreground: fg, background: bg2, callback: _setChoice),
+            DataChooser(
+                foreground: fg,
+                background: bg2,
+                current: selected,
+                callback: _setChoice),
             GenerateButton(callback: _handle, status: status),
           ],
         ),
