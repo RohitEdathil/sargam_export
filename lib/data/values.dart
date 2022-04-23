@@ -8,7 +8,7 @@ const eventNames = [
   Event('elocutionhindi', 'Elocution-Hindi', EventType.solo),
   Event('pencildrawing', 'Pencil Drawing', EventType.solo),
   Event('cartooning', 'Cartooning', EventType.solo),
-  Event('storytelling', 'Story Telling', EventType.solo),
+  Event('storywriting', 'Story Writing', EventType.solo),
   Event('poemwriting', 'Poem writing', EventType.solo),
   Event('meetlove', 'Meet your loved character', EventType.solo),
   Event('trivia', 'Literature Trivia Quiz', EventType.solo),
